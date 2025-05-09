@@ -1,0 +1,25 @@
+[project]
+name = "bot-service"
+version = "0.1.0"
+description = "Telegram bot and Flask-based RAG editor service."
+authors = ["Denis Varekha d.varekha@gmail.com"]
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "python-telegram-bot[job-queue]",
+    "python-dotenv",
+    "openai==0.28.0",
+    "flask",
+    "flask-cors",
+]
+
+[project.optional-dependencies]
+dev = [
+    "uv",
+    "ruff",
+    "pyright",
+]
+
+[tool.ruff]
+line-length = 88
+exclude = [".gitignore"]
+

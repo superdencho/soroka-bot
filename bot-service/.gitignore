@@ -1,0 +1,28 @@
+# Python / Flask
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+*.egg
+.installed.cfg
+
+# Virtual environment and env files
+.venv/
+venv/
+.env
+
+# Built static assets (Flutter web build)
+static/
+
+# Logs
+*.log
+
+# IDEs / Editors
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
