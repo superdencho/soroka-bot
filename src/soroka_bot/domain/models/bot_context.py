@@ -1,16 +1,15 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import time
-# from typing import Optional
 
-from domain.repositories.recipient_repo import RecipientRepository
-from domain.repositories.message_repo   import MessageRepository
+from domain.repositories.recipients_repository import RecipientsRepository
+from domain.repositories.user_messages_repository import UserMessagesRepository
+
 
 @dataclass
 class BotContext:
-    token:       str
-    db_path:     str 
+    token: str
+    db_path: str
     report_time: time
-    recipients:  RecipientRepository
-    messages:    MessageRepository
-
+    recipients: RecipientsRepository
+    messages: UserMessagesRepository
