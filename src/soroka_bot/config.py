@@ -1,24 +1,21 @@
 import os
+from typing import Final
+
 from dotenv import load_dotenv
-from pathlib import Path
+
 
 load_dotenv()
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-if not TOKEN:
-    raise ValueError(
-        "TELEGRAM_BOT_TOKEN is not set. Please export it as an environment variable."
-    )
+try:
+    TOKEN: Final[str] = os.environ["TELEGRAM_BOT_TOKEN"]
+except KeyError as exc:
+    raise RuntimeError(
+        "Переменная окружения TELEGRAM_BOT_TOKEN не установлена."
+    ) from exc
 
-ADMIN_USERNAMES = ["denis_varekha", "igor_gerasimov"]
 TZ_INFO = "Europe/Moscow"
 
-BASE_DIR    = Path(__file__).parent
-SHARED_DIR  = BASE_DIR / "shared"
-
-RAG_FILE    = SHARED_DIR / "rag.txt"
-DEFAULT_RAG = """Собери из этого ключевые события для отчёта... [ваш текущий текст]..."""
-
+# TODO: это нужно перенести в функционал UI
 # Время (часы и минуты) для ежедневной задачи.
 DAILY_JOB_HOUR = 19
 DAILY_JOB_MINUTE = 11

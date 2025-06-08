@@ -1,11 +1,10 @@
 from dataclasses import dataclass
+from domain.models.chat_info import ChatInfo
 
 
 @dataclass(slots=True)
-class Message:
+class UserMessage:
     dt: str
     user: str
     text: str
-    chat_id: int
-    chat_title: str
-    thread_id: int
+    chat: ChatInfo

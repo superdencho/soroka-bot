@@ -1,14 +1,13 @@
 import logging
 
 from handlers.rag_report import build_messages_for_deepseek, call_deepseek_openai
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 from utils.formatting import chunk_text
-from utils.storage import admin_chat_ids, chat_messages
 
 logger = logging.getLogger(__name__)
 
 
-async def send_daily_report(context: CallbackContext):
+async def send_daily_report(context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Отправка отчёта.
     Формирует запрос в ИИ-сервис, отправляет ответ, затем чистит БД сообщений.
