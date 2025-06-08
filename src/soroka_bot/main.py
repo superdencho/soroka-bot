@@ -1,16 +1,15 @@
-import threading
 import logging
+import threading
 from datetime import time
 from zoneinfo import ZoneInfo
 
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 
-from .config import TOKEN, DAILY_JOB_HOUR, DAILY_JOB_MINUTE, TZ_INFO
-from telegram_bot.handlers.start import start_command
 from telegram_bot.handlers.collector import collect_messages
+from telegram_bot.handlers.start import start_command
 from telegram_bot.jobs.daily_report import send_daily_report
 
-from rag_api.routes import create_app  # фабрика Flask
+from .config import DAILY_JOB_HOUR, DAILY_JOB_MINUTE, TOKEN, TZ_INFO
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -38,16 +37,7 @@ def run_bot():
     application.run_polling()
 
 
-def run_api():
-    app = create_app(static_folder="static", static_url_path="/")
-    logger.info("Starting Flask API on http://0.0.0.0:5000")
-    app.run(host="0.0.0.0", port=5000)
-
-
 if __name__ == "__main__":
     # Запускаем бота в отдельном потоке
     bot_thread = threading.Thread(target=run_bot, daemon=True)
     bot_thread.start()
-
-    # Основной поток — Flask
-    run_api()

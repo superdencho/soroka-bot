@@ -38,10 +38,6 @@ async def collect_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         doc_name = tg_message.document.file_name
         text = f"Файл: {doc_name}"
 
-    # Если в тексте есть URL
-    if "http://" in text or "https://" in text:
-        text = f"Ссылка: {text}"
-
     logger.info(f"Собрано сообщение от {user_name.strip()} в чате {chat_title}: {text}")
 
     chat = chat_messages.setdefault(

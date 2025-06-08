@@ -1,6 +1,7 @@
 import logging
 import openai
-from rag_storage import read_rag_query
+from importlib.resources import files
+from models.deepseek_message import DeepSeekMessage, DeepSeekRole 
 
 from config import (
     DEEPSEEK_API_KEY,
@@ -12,26 +13,22 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
+_resource_pkg = "soroka_bot.shared"  # пакет-контейнер
+RAG_QUERY: str = (files(_resource_pkg) / "rag.txt").read_text(encoding="utf-8")
+SYSTEM_CONTENT: str = (files(_resource_pkg) / "ai_system_message.txt").read_text(
+    encoding="utf-8"
+)
 
-def build_messages_for_deepseek(chat_messages: dict) -> list:
+
+def build_messages_for_deepseek(chat_messages: dict[str, str]) -> list[DeepSeekMessage]:
     """
-    Генерируем массив сообщений в формате OpenAI ChatCompletion:
+    Генерируем массив сообщений в формате DeepSeek ChatCompletion:
     [
       {"role": "system", "content": "..."},
       {"role": "user", "content": "..."},
       ...
     ]
     """
-    rag_query = read_rag_query()
-    system_content = (
-        "You are a helpful assistant that processes Telegram chats. "
-        "Follow the editorial rules given by the user. Summarize key events, conflicts, tasks, etc. "
-        "Rewrite to simpler Russian if needed, according to the style rules. "
-        "You are allowed to use emojis if appropriate to emphasize content or structure."
-        "Use emojis for separation"
-        "Do NOT use bold text (no double asterisks like **text**). "
-        "Do NOT use dashed separators like '----'."
-    )
 
     # Собираем всё содержимое чатов
     all_chats_text = []
@@ -48,16 +45,17 @@ def build_messages_for_deepseek(chat_messages: dict) -> list:
     user_content = "\n".join(all_chats_text).strip()
 
     messages = [
-        {"role": "system", "content": system_content},
-        {"role": "user", "content": f"{rag_query}\n\n{user_content}"},
-        # ()) + user_content}
+        DeepSeekMessage(role=DeepSeekRole.system, content=SYSTEM_CONTENT),
+        DeepSeekMessage(
+            role=DeepSeekRole.user, content=f"{RAG_QUERY}\n\n{user_content}"
+        ),
     ]
     return messages
 
 
-def call_deepseek_openai(messages: list) -> str:
+def call_deepseek_openai(messages: list[DeepSeekMessage]) -> str:
     """
-    Вызывает DeepSeek через OpenAI API (совместимый интерфейс).
+    Вызывает DeepSeek через DeepSeek API.
     """
     # Настраиваем openai на использование DeepSeek
     openai.api_key = DEEPSEEK_API_KEY

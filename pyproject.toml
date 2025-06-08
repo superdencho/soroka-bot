@@ -9,6 +9,7 @@ dependencies = [
     "python-telegram-bot[job-queue]",
     "python-dotenv",
     "openai==0.28.0",
+    "sqlalchemy>=2.0,<3.0",
 ]
 
 [project.optional-dependencies]

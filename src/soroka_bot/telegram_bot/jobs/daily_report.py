@@ -1,19 +1,17 @@
 import logging
-from telegram.ext import CallbackContext
 
-from utils.storage import admin_chat_ids, chat_messages
-from utils.formatting import chunk_text
-
-# Импортируем ту же логику, что и в /rag_report
 from handlers.rag_report import build_messages_for_deepseek, call_deepseek_openai
+from telegram.ext import CallbackContext
+from utils.formatting import chunk_text
+from utils.storage import admin_chat_ids, chat_messages
 
 logger = logging.getLogger(__name__)
 
 
 async def send_daily_report(context: CallbackContext):
     """
-    Отправка AI-отчёта.
-    Формирует RAG-запрос в DeepSeek, отправляет ответ, затем чистит чат.
+    Отправка отчёта.
+    Формирует запрос в ИИ-сервис, отправляет ответ, затем чистит БД сообщений.
     """
     if admin_chat_ids.values is None:
         logger.error(
