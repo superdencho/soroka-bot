@@ -5,16 +5,12 @@ from zoneinfo import ZoneInfo
 
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 
-from soroka_bot.models.bot_storage import BotStorage
-from telegram_bot.handlers.collector import collect_messages
-from telegram_bot.handlers.start import start_command
-from telegram_bot.jobs.daily_report import send_daily_report
-
 from .config import DAILY_JOB_HOUR, DAILY_JOB_MINUTE, TOKEN, TZ_INFO
 
 # TODO: 
 # 1. Пользователь, который запускает бота добавляет имена получателей 
 # "Кто еще, кроме вас должен получать отчет?.."
+
 # 2. Пользователь, который запускает ставит время формирования отчета
 
 logging.basicConfig(
