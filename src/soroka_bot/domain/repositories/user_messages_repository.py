@@ -1,4 +1,4 @@
-from typing import Iterable, Protocol
+from typing import Protocol
 
 from soroka_bot.domain.models.user_message import UserMessage
 
@@ -8,10 +8,9 @@ class UserMessagesRepository(Protocol):
     Абстракция для накопления и чтения сообщений пользователей.
     """
 
-    async def add_message(self, msg: UserMessage) -> bool:
+    async def add_message(self, msg: UserMessage) -> None:
         """
         Добавить сообщение в хранилище.
-        Вернуть True, если сохранение прошло успешно.
         """
         ...
 
@@ -21,15 +20,9 @@ class UserMessagesRepository(Protocol):
         """
         ...
 
-    async def clear(self) -> int:
+    async def clear_all_messages(self) -> int:
         """
         Очистить хранилище сообщений,
         вернуть число удаленных записей.
-        """
-        ...
-
-    def __iter__(self) -> Iterable[UserMessage]:
-        """
-        Итератор по текущим сообщениям.
         """
         ...

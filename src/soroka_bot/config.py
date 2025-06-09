@@ -14,6 +14,7 @@ except KeyError as exc:
     ) from exc
 
 TZ_INFO = "Europe/Moscow"
+DATABASE_URL = "sqlite+aiosqlite:///soroka_bot.db"
 
 # TODO: это нужно перенести в функционал UI
 # Время (часы и минуты) для ежедневной задачи.
