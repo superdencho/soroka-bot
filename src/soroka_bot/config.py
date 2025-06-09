@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    TOKEN: Final[str] = os.environ["TELEGRAM_BOT_TOKEN"]
+    TELEGRAM_BOT_TOKEN: Final[str] = os.environ["TELEGRAM_BOT_TOKEN"]
 except KeyError as exc:
     raise RuntimeError(
         "Переменная окружения TELEGRAM_BOT_TOKEN не установлена."
